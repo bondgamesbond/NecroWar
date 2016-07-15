@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Player : Unit
+public class Player : MonoBehaviour
 {
 	RaycastHit2D hit;
 	Ray2D ray;

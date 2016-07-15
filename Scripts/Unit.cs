@@ -6,6 +6,7 @@ public class Unit : MonoBehaviour {
 	public float AttackPoint;
 	public float AttackSpeed;
 	public GameObject Target;
+	public float speed;
 
 	// Use this for initialization
 	void Start () {

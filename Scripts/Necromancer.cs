@@ -13,7 +13,7 @@ public class Necromancer : Unit {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = Vector2.MoveTowards(transform.position, way, 2 * Time.deltaTime);
+		transform.position = Vector2.MoveTowards(transform.position, way, speed * Time.deltaTime);
 		if ((transform.position.x == way.x && transform.position.y == way.y))
 		{
 			way = new Vector2(Random.Range(-VectorMaxRange, VectorMaxRange), Random.Range(-VectorMaxRange, VectorMaxRange));
