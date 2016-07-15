@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Unit : MonoBehaviour {
+public class Unit : MonoBehaviour
+{
 	public float HealthPoint;
 	public float AttackPoint;
 	public float AttackSpeed;
 	public GameObject Target;
+
 	public float speed;
 
 	// Use this for initialization
@@ -17,4 +19,5 @@ public class Unit : MonoBehaviour {
 	void Update () {
 	
 	}
+
 }
