@@ -17,7 +17,7 @@ public class PlayerInputs : MonoBehaviour
             if (hit.collider.CompareTag("Floor"))
             {
                 Vector3 difference = mouse - transform.position;
-                transform.Translate(GetComponent<Player>().speed * difference * Time.deltaTime);
+                transform.Translate(GetComponent<Player>().movementSpeed * difference * Time.deltaTime);
             }
         }
     }
