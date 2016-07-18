@@ -1,23 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Unit : MonoBehaviour
+public abstract class Unit : MonoBehaviour
 {
-	public float HealthPoint;
+    public float movementSpeed;
+    public float HealthPoint;
 	public float AttackPoint;
 	public float AttackSpeed;
+    public GameObject necromancer;
 	public GameObject Target;
-
-	public float speed;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
+    
+    public abstract void Attack();
+    public abstract void Walk();
+    public abstract void TargetAction();
+    public abstract void Revive();
+    public abstract void Die();
 }
+
+public enum UnitStates
+{
+    Idle,
+    Targeting,
+    Attacking,
+    Dying,
+    Dead
+};
