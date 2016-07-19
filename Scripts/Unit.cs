@@ -4,11 +4,12 @@ using System.Collections;
 public abstract class Unit : MonoBehaviour
 {
     public float movementSpeed;
-    public float HealthPoint;
-	public float AttackPoint;
-	public float AttackSpeed;
+    public float healthPoint;
+	public float attackPoint;
+	public float attackSpeed;
     public GameObject necromancer;
-	public GameObject Target;
+	public GameObject target;
+    public UnitStates state;
     
     public abstract void Attack();
     public abstract void Walk();

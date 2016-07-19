@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Necromancer : Unit {
 
-	private Vector2 way;
+	private Vector3 way;
 	public int VectorMaxRange;
 
     public override void Attack()
@@ -13,12 +13,24 @@ public class Necromancer : Unit {
 
     public override void Walk()
     {
+        if (way != null)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, way, movementSpeed * Time.deltaTime);
 
+            if (transform.position == way)
+            {
+                way = new Vector3(Random.Range(-VectorMaxRange, VectorMaxRange), Random.Range(-VectorMaxRange, VectorMaxRange), 0.0f);
+            }
+        }
     }
 
     public override void TargetAction()
     {
-
+        if (target != null)
+        {
+            Debug.Log("asd");
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, movementSpeed * Time.deltaTime);
+        }
     }
 
     public override void Revive()
@@ -31,18 +43,31 @@ public class Necromancer : Unit {
 
     }
 
-    // Use this for initialization
-    void Start () {
-		way = new Vector2(Random.Range(-VectorMaxRange, VectorMaxRange) ,Random.Range(-VectorMaxRange, VectorMaxRange));
-	}
-	
-	// Update is called once per frame
 	void Update () {
-		transform.position = Vector2.MoveTowards(transform.position, way, movementSpeed * Time.deltaTime);
-		if ((transform.position.x == way.x && transform.position.y == way.y))
-		{
-			way = new Vector2(Random.Range(-VectorMaxRange, VectorMaxRange), Random.Range(-VectorMaxRange, VectorMaxRange));
-		}
-	
+        Debug.Log(name + " " + state);
+		if (state == UnitStates.Idle)
+        {
+            Walk();
+        }
+        else if (state == UnitStates.Targeting)
+        {
+            TargetAction();
+        }
 	}
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (GetComponent<BoxCollider2D>().IsTouching(other))
+        {
+            if (other.name == "AttackCollider")
+            {
+                other.transform.parent.GetComponent<Unit>().state = UnitStates.Attacking;
+            }
+            else if (other.name == "LineOfSight")
+            {
+                other.transform.parent.GetComponent<Unit>().state = UnitStates.Targeting;
+                other.transform.parent.GetComponent<Unit>().target = this.gameObject;
+            }
+        }
+    }
 }
