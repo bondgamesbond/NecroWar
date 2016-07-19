@@ -3,25 +3,25 @@ using System.Collections;
 
 public abstract class Unit : MonoBehaviour
 {
-    public float movementSpeed;
-    public float HealthPoint;
-	public float AttackPoint;
-	public float AttackSpeed;
-    public GameObject necromancer;
-	public GameObject Target;
-    
-    public abstract void Attack();
-    public abstract void Walk();
-    public abstract void TargetAction();
-    public abstract void Revive();
-    public abstract void Die();
-}
+	public float healthPoint;
+	public float attackPoint;
+	public float attackSpeed;
+	public GameObject target;
+	public float movementSpeed;
+	public GameObject necromancer;
+	public UnitStates state;
 
-public enum UnitStates
-{
-    Idle,
-    Targeting,
-    Attacking,
-    Dying,
-    Dead
-};
+
+	public abstract void Attack ();
+
+	public abstract void Walk ();
+
+	public abstract void TargetAction ();
+
+	public abstract void Revive ();
+
+	public abstract void Die ();
+
+
+}
+public enum UnitStates {Idle, Targeting, Attacking, Dying, Dead};
