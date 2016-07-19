@@ -11,10 +11,10 @@ public class Skeleton : Unit {
 
 		if (Vector2.Distance (transform.position, necromancer.transform.position) > 0.01) { 											//if the skeleton is far away 																														
 
-			transform.position = Vector2.MoveTowards (transform.position, necromancer.transform.position, speed * Time.deltaTime);		//from its necromancer it moves to it
+			transform.position = Vector2.MoveTowards (transform.position, necromancer.transform.position, movementSpeed * Time.deltaTime);		//from its necromancer it moves to it
 		} else {
 			
-			transform.position = Vector2.MoveTowards (transform.position, necromancer.transform.GetComponent<Necromancer>().way, necromancer.transform.GetComponent<Necromancer>().speed * Time.deltaTime);
+			transform.position = Vector2.MoveTowards (transform.position, necromancer.transform.GetComponent<Necromancer>().way, necromancer.transform.GetComponent<Necromancer>().movementSpeed * Time.deltaTime);
 		}
 
 	}

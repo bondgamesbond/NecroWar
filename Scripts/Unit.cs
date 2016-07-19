@@ -3,12 +3,11 @@ using System.Collections;
 
 public abstract class Unit : MonoBehaviour
 {
-	
 	public float healthPoint;
 	public float attackPoint;
 	public float attackSpeed;
 	public GameObject target;
-	public float speed;
+	public float movementSpeed;
 	public GameObject necromancer;
 	public UnitStates state;
 
