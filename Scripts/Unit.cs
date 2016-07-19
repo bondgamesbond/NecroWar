@@ -4,12 +4,13 @@ using System.Collections;
 public abstract class Unit : MonoBehaviour
 {
 	
-	public float HealthPoint;
-	public float AttackPoint;
-	public float AttackSpeed;
-	public GameObject Target;
+	public float healthPoint;
+	public float attackPoint;
+	public float attackSpeed;
+	public GameObject target;
 	public float speed;
-	public GameObject necro;
+	public GameObject necromancer;
+	public UnitStates state;
 
 
 	public abstract void Attack ();
@@ -24,4 +25,4 @@ public abstract class Unit : MonoBehaviour
 
 
 }
-public enum unitStates {idle, targetting, attacking, dying, dead};
+public enum UnitStates {Idle, Targeting, Attacking, Dying, Dead};
