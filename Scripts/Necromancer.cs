@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Necromancer : Unit {
-
+public class Necromancer : Unit
+{
 	private Vector3 way;
 	public int VectorMaxRange;
 
@@ -33,15 +33,13 @@ public class Necromancer : Unit {
         }
     }
 
-    public override void Revive()
-    {
+	public override void Revive (){
+		
+	}
 
-    }
-
-    public override void Die()
-    {
-
-    }
+	public override void Die (){
+		
+	}
 
 	void Update () {
         Debug.Log(name + " " + state);
