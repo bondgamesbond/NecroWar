@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Necromancer : Unit
 {
-	private Vector3 way;
+	public Vector3 way;
 	public int VectorMaxRange;
 
     public override void Attack()
@@ -42,7 +42,7 @@ public class Necromancer : Unit
 	}
 
 	void Update () {
-        Debug.Log(name + " " + state);
+        //Debug.Log(name + " " + state);
 		if (state == UnitStates.Idle)
         {
             Walk();
@@ -54,18 +54,19 @@ public class Necromancer : Unit
 	}
 
     void OnTriggerEnter2D(Collider2D other)
-    {
-        if (GetComponent<BoxCollider2D>().IsTouching(other))
-        {
-            if (other.name == "AttackCollider")
-            {
-                other.transform.parent.GetComponent<Unit>().state = UnitStates.Attacking;
-            }
-            else if (other.name == "LineOfSight")
-            {
-                other.transform.parent.GetComponent<Unit>().state = UnitStates.Targeting;
-                other.transform.parent.GetComponent<Unit>().target = this.gameObject;
-            }
-        }
-    }
+	{
+		if (other.name != "BackGround") {
+			if (GetComponent<BoxCollider2D> ().IsTouching (other)) {
+				Debug.Log (other.name);
+				if (other.GetComponentInParent<Unit> ().necromancer != necromancer) {
+					if (other.name == "AttackCollider") {
+						other.transform.parent.GetComponent<Unit> ().state = UnitStates.Attacking;
+					} else if (other.name == "LineOfSight") {
+						other.transform.parent.GetComponent<Unit> ().state = UnitStates.Targeting;
+						other.transform.parent.GetComponent<Unit> ().target = this.gameObject;
+					}
+				}
+			}
+		}
+	}
 }

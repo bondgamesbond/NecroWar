@@ -11,10 +11,10 @@ public class Skeleton : Unit {
 
 		if (Vector2.Distance (transform.position, necromancer.transform.position) > 0.01) { 											//if the skeleton is far away 																														
 
-			transform.position = Vector2.MoveTowards (transform.position, necromancer.transform.position, movementSpeed * Time.deltaTime);		//from its necromancer it moves to it
+			transform.position = Vector3.MoveTowards (transform.position, necromancer.transform.position, movementSpeed * Time.deltaTime);		//from its necromancer it moves to it
 		} else {
 			
-			transform.position = Vector2.MoveTowards (transform.position, necromancer.transform.GetComponent<Necromancer>().way, necromancer.transform.GetComponent<Necromancer>().movementSpeed * Time.deltaTime);
+			transform.position = Vector3.MoveTowards (transform.position, necromancer.transform.GetComponent<Necromancer>().way, necromancer.transform.GetComponent<Necromancer>().movementSpeed * Time.deltaTime);
 		}
 
 	}
@@ -37,15 +37,15 @@ public class Skeleton : Unit {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (GetComponent<BoxCollider2D>().IsTouching(other))
-		{
-			if (other.name == "AttackCollider")
-			{
-				other.transform.parent.GetComponent<Unit>().state = UnitStates.Attacking;
-			}
-			else if (other.name == "LineOfSight")
-			{
-				other.transform.parent.GetComponent<Unit>().state = UnitStates.Targeting;
+		if (other.name != "BackGround") {
+			if (GetComponent<BoxCollider2D> ().IsTouching (other)) {
+				if (other.GetComponentInParent<Unit> ().necromancer != necromancer) {
+					if (other.name == "AttackCollider") {
+						other.transform.parent.GetComponent<Unit> ().state = UnitStates.Attacking;
+					} else if (other.name == "LineOfSight") {
+						other.transform.parent.GetComponent<Unit> ().state = UnitStates.Targeting;
+					}
+				}
 			}
 		}
 	}
