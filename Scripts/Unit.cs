@@ -7,6 +7,7 @@ public abstract class Unit : MonoBehaviour
     public float healthPoint;
 	public float attackPoint;
 	public float attackSpeed;
+    public float attackTimer;
     public GameObject necromancer;
 	public GameObject target;
     public UnitStates state;
@@ -16,6 +17,7 @@ public abstract class Unit : MonoBehaviour
     public abstract void TargetAction();
     public abstract void Revive();
     public abstract void Die();
+    public abstract void TakeDamage(float attackPoint);
 }
 
 public enum UnitStates
