@@ -1,14 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Necromancer : Unit
 {
 	public Vector3 way;
 	public int VectorMaxRange;
+    public List<GameObject> army;
 
     public override void Attack()
     {
+        if (target != null)
+        {
+            attackTimer += Time.deltaTime;
 
+            if (attackTimer >= 1.0f / attackSpeed)
+            {
+                if (target.GetComponent<Unit>().state != UnitStates.Dying &&
+                    target.GetComponent<Unit>().state != UnitStates.Dead)
+                {
+                    target.GetComponent<Unit>().TakeDamage(attackPoint);
+                    attackTimer = 0;
+                    Debug.Log(target.name + " " + target.GetComponent<Unit>().healthPoint);
+                }
+                else
+                {
+                    state = UnitStates.Idle;
+                    target = null;
+                }
+            }
+        }
     }
 
     public override void Walk()
@@ -28,7 +49,6 @@ public class Necromancer : Unit
     {
         if (target != null)
         {
-            Debug.Log("asd");
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, movementSpeed * Time.deltaTime);
         }
     }
@@ -41,7 +61,26 @@ public class Necromancer : Unit
 		
 	}
 
-	void Update () {
+    public override void TakeDamage(float attackPoint)
+    {
+        healthPoint -= attackPoint;
+
+        if (healthPoint <= 0)
+        {
+            state = UnitStates.Dead;
+        }
+    }
+
+    void Start ()
+    {
+        healthPoint = 100;
+        attackPoint = 5;
+        attackSpeed = 1;
+
+        way = new Vector3(Random.Range(-VectorMaxRange, VectorMaxRange), Random.Range(-VectorMaxRange, VectorMaxRange), 0.0f);
+    }
+
+    void Update () {
         //Debug.Log(name + " " + state);
 		if (state == UnitStates.Idle)
         {
@@ -51,22 +90,17 @@ public class Necromancer : Unit
         {
             TargetAction();
         }
-	}
+        else if (state == UnitStates.Attacking)
+        {
+            Attack();
+        }
+        else if (state == UnitStates.Dying)
+        {
 
-    void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.name != "BackGround") {
-			if (GetComponent<BoxCollider2D> ().IsTouching (other)) {
-				Debug.Log (other.name);
-				if (other.GetComponentInParent<Unit> ().necromancer != necromancer) {
-					if (other.name == "AttackCollider") {
-						other.transform.parent.GetComponent<Unit> ().state = UnitStates.Attacking;
-					} else if (other.name == "LineOfSight") {
-						other.transform.parent.GetComponent<Unit> ().state = UnitStates.Targeting;
-						other.transform.parent.GetComponent<Unit> ().target = this.gameObject;
-					}
-				}
-			}
-		}
+        }
+        else if (state == UnitStates.Dead)
+        {
+            gameObject.SetActive(false);
+        }
 	}
 }

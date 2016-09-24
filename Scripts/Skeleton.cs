@@ -4,12 +4,31 @@ using System.Collections;
 public class Skeleton : Unit {
 
 	public  override void Attack (){
+        if (target != null)
+        {
+            attackTimer += Time.deltaTime;
 
-	}
+            if (attackTimer >= 1.0f / attackSpeed)
+            {
+                if (target.GetComponent<Unit>().state != UnitStates.Dying &&
+                    target.GetComponent<Unit>().state != UnitStates.Dead)
+                {
+                    target.GetComponent<Unit>().TakeDamage(attackPoint);
+                    attackTimer = 0;
+                    Debug.Log(target.name + " " + target.GetComponent<Unit>().healthPoint);
+                }
+                else
+                {
+                    state = UnitStates.Idle;
+                    target = null;
+                }
+            }
+        }
+    }
 
 	public  override void Walk (){
 
-		if (Vector2.Distance (transform.position, necromancer.transform.position) > 0.01) { 											//if the skeleton is far away 																														
+		if (Vector2.Distance (transform.position, necromancer.transform.position) > 1) { 											//if the skeleton is far away 																														
 
 			transform.position = Vector3.MoveTowards (transform.position, necromancer.transform.position, movementSpeed * Time.deltaTime);		//from its necromancer it moves to it
 		} else {
@@ -20,8 +39,11 @@ public class Skeleton : Unit {
 	}
 
 	public  override void TargetAction (){
-
-	}
+        if (target != null)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, movementSpeed * Time.deltaTime);
+        }
+    }
 
 	public  override void Revive (){
 
@@ -30,27 +52,22 @@ public class Skeleton : Unit {
 	public  override void Die (){
 
 	}
-	// Use this for initialization
-	void Start () {
+
+    public override void TakeDamage(float attackPoint)
+    {
+        healthPoint -= attackPoint;
+
+        if (healthPoint <= 0)
+        {
+            state = UnitStates.Dead;
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.name != "BackGround") {
-			if (GetComponent<BoxCollider2D> ().IsTouching (other)) {
-				if (other.GetComponentInParent<Unit> ().necromancer != necromancer) {
-					if (other.name == "AttackCollider") {
-						other.transform.parent.GetComponent<Unit> ().state = UnitStates.Attacking;
-					} else if (other.name == "LineOfSight") {
-						other.transform.parent.GetComponent<Unit> ().state = UnitStates.Targeting;
-					}
-				}
-			}
-		}
-	}
-
-	
 	// Update is called once per frame
 	void FixedUpdate () {
 		
@@ -58,7 +75,6 @@ public class Skeleton : Unit {
 
 			Walk ();	
 		} else if (state == UnitStates.Targeting) { //checks wheter the skeleton is in targetting state
-
 			TargetAction ();
 		} else if (state == UnitStates.Attacking) { //checks wheter the skeleton is in attacking state
 

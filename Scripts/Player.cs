@@ -29,6 +29,10 @@ public class Player : Unit
     {
 
     }
+
+    public override void TakeDamage(float attackPoint)
+    {
+    }
 }
 
 
